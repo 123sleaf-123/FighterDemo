@@ -50,7 +50,13 @@ public class PlayerController : MonoBehaviour
 
     public void Move()
     {
-        rb.velocity = new Vector2(forceWalk ? 2.4f : inputDirection.x * velocity * Time.deltaTime, rb.velocity.y);
+        var velocityx = inputDirection.x * velocity * Time.deltaTime;
+        // Press #ForceWalkButton, the x velocity should be smaller than 2.5
+        if (forceWalk && Mathf.Abs(velocityx) > 2.5f)
+        {
+            velocityx = Mathf.Sign(velocityx) * 2.5f;
+        }
+        rb.velocity = new Vector2(velocityx, rb.velocity.y);
 
         // Flip Player
         if (inputDirection.x == 0.0f)
